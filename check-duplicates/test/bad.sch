@@ -1,0 +1,29 @@
+v 20191003 2
+C 50300 45700 1 0 0 npn-2.sym
+{
+T 50900 46200 5 10 0 0 0 0 1
+device=NPN_TRANSISTOR
+T 50900 46200 5 10 1 1 0 0 1
+refdes=Q1
+}
+C 50900 46700 1 90 0 resistor-1.sym
+{
+T 50500 47000 5 10 0 0 90 0 1
+device=RESISTOR
+T 51200 47400 5 10 1 1 180 0 1
+refdes=R1
+T 51300 47200 5 10 1 1 180 0 1
+value=10k
+}
+C 50600 47600 1 0 0 vcc-1.sym
+C 50700 45400 1 0 0 gnd-1.sym
+C 49400 46100 1 0 0 resistor-1.sym
+{
+T 49700 46500 5 10 0 0 0 0 1
+device=RESISTOR
+T 49600 46400 5 10 1 1 0 0 1
+refdes=R1
+T 49600 45900 5 10 1 1 0 0 1
+value=100k
+}
+C 49300 45900 1 0 0 gnd-1.sym
