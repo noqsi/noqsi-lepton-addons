@@ -1,7 +1,7 @@
 ;;; pincount.scm - Module for Lepton EDA
 ;;; Determine the pin coount of a package
 ;;;
-;;; Copyright (C)  2019 John P. Doty
+;;; Copyright (C)  2019, 2020 John P. Doty
 ;;;
 ;;; This program is free software; you can redistribute it and/or modify
 ;;; it under the terms of the GNU General Public License as published by
@@ -17,13 +17,14 @@
 ;;; along with this program; if not, write to the Free Software
 ;;; Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-(define-module noqsi pincount)
+(define-module (noqsi pincount))
 
 (use-modules (srfi srfi-1))
 (use-modules (ice-9 regex))
 (use-modules (ice-9 format))
 (use-modules (noqsi tsv))
-
+(use-modules (netlist))
+	     
 (define counts (make-hash-table))
 
 (define (table-error message entry)
@@ -85,9 +86,9 @@
 ;; Count could be "*".
 ;; Return #f on failure.
 (define (prefix-pins f)
-	(if 
-		(string-null? f) 
-		#f 
+	(and
+		f 
+		(not (string-null? f))
 		(let
 			((pc (hash-ref counts f)))
 			(if pc 
@@ -110,13 +111,34 @@
 	)
 )
 
+; Stole the following from netlist.scm
+;;; Default resolver: Returns the first valid (non-#F) value from
+;;; VALUES, or #F, if there is no valid attribute value. If any
+;;; other valid value in the list is different, yields a warning
+;;; reporting REFDES of affected symbol instances and attribute
+;;; NAME.
+(define (unique-attribute refdes name values)
+  (let ((values (filter-map identity values)))
+    (and (not (null? values))
+         (let ((value (car values)))
+           (or (every (lambda (x) (equal? x value)) values)
+               (format (current-error-port) (_ "\
+Possible attribute conflict for refdes: ~A
+name: ~A
+values: ~A
+") refdes name values))
+           value))))
 
+
+(define (get-attribute refdes name)
+	(unique-attribute refdes name 
+		(get-all-package-attributes refdes name)))
 
 (define (get-numeric-attribute refdes name)
-	(let ((value (unique-attribute refdes name (get-all-package-attributes refdes name))))
+	(let ((value (get-attribute refdes name)))
 		(and 
 			value
-			(if (regex-exec num value)
+			(if (regexp-exec num value)
 				(string->number value)
 				(numeric-warning refdes name value)
 			)
@@ -126,7 +148,8 @@
 
 (define (numeric-warning refdes name value)
 	(format (current-error-port)
-		"For ~A ~A = ~A is not numeric"
+		"For ~A ~A = ~A is not numeric\n"
+		refdes name value
 	)
 	#f
 )
@@ -138,9 +161,12 @@
 (define (get-package-pincount p)
 	(or 
 		(get-numeric-attribute p "pins") 
-		(pins-from-footprint (get-package-attribute-f p "footprint"))
+		(pins-from-footprint (get-attribute p "footprint"))
 		(length (get-pins p))
 	)
 )
 
-(export get-package-pincount enter-pincount-for-footprint pins-from-footprint)
+(export get-package-pincount 
+	enter-pincount-for-footprint 
+	pins-from-footprint
+	get-numeric-attribute)

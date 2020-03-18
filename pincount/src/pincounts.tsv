@@ -1,0 +1,67 @@
+# Database of Lepton footprints with pincounts
+
+ALF	2
+LED	2
+# Most SOT footprints have 3 pins
+SOT	3
+# Longer names get priority, so here are some exceptions
+SOT25	5
+SOT325	5
+SOT26	6
+SOT326	6
+SOT89	4
+# Most TO footprints have 3 pins
+TO	3
+TO3	4
+# Have to override TO3 for TO39
+TO39	3
+TO66	4
+TO220	4
+SOD	2
+SC90	3
+ACY	2
+RCY	2
+BRE	2
+HC	2
+RJ11	6
+RJ12	6
+RJ45	8
+0201	2
+0402	2
+0603	2
+0805	2
+1206	2
+1210	2
+1806	2
+1812	2
+1825	2
+2020	2
+2706	2
+EIA	2
+SME	2
+
+# By convention, these footprint names will have a suffix with the pincount
+DIP	*
+SDIP	*
+SIP	*
+ZIP	*
+PLCC	*
+SO	*
+MSOP	*
+MSSOP	*
+SSOP	*
+TSOP	*
+TSSOP	*
+PLCC	*
+US	*
+QFP	*
+LQFP	*
+TQFP	*
+QFN	*
+TQFN	*
+OSC	*
+JUMPER	*
+HEADER	*
+DIN41651	*
+DB	*
+DIN41612	*

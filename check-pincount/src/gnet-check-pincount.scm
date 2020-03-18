@@ -2,7 +2,7 @@
 ;;; gnet-check-pincount.scm - check that each package in a project has the correct
 ;;; number of pins.
 ;;;
-;;; Copyright (C)  2015 John P. Doty
+;;; Copyright (C)  2015, 2020 John P. Doty
 ;;;
 ;;; This program is free software; you can redistribute it and/or modify
 ;;; it under the terms of the GNU General Public License as published by

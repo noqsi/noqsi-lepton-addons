@@ -37,13 +37,15 @@ This means that **SOT** footprints like **SOT23** generally have 3 pins, but **S
 
 ## Modules
 ### (noqsi pincount)
-This module exports three functions. 
+This module exports four functions. 
 
 `(get-package-pincount p)`, given package refdes `p`, yields an integer count of the number of pins on the package. If the package has an attached `pins=` attribute with a numeric value, that value is returned. Otherwise, the function attempts to match the fooprint attached to the package to a prefix in the **pincounts.tsv** files (see above) to obtain a count. If that also fails, it counts net connections to the package.
 
 `(pins-from-footprint f)` attempts to match the fooprint `f` to a prefix in the **pincounts.tsv** files. It returns the pincount on success, `#f` on failure.
 
 `(enter-pincount-for-footprint entry)` allows for additional footprint prefixes beyond those in the **pincounts.tsv** files. Prefixes added this way will have precedence over prefixes of the same length or shorter from the files. `entry` should be a two element list of the form `(prefix count)` where both elements are character strings. `count` may `*`, or it may represent a positive decimal integer.
+
+`(get-numeric-attribute refdes name)` yields the numeric value of attribute `name` attached to package `refdes`. If the attribute doesn't exist, it yields `#f`. If the attribute isn't numeric, it yields `%f` and displays a warning on the standard error output.
 ### (noqsi tsv)
 This module exports a single function. `(tsv-data name)` appends the suffix ".tsv" to the string `name` and searches for files that match. It first searches `sys-data-dirs`, followed by `user-data-dir` and the working directory. It returns a list of parsed lines. Each parsed line is a list of character strings representing the TAB character delimited fields in the line.
 
