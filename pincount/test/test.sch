@@ -22,7 +22,7 @@ device=NPN_TRANSISTOR
 T 48400 49200 5 10 1 1 0 0 1
 refdes=Q3
 T 47700 48400 5 10 1 0 0 0 1
-footprint=TO666
+footprint=TO1951
 T 47700 48200 5 10 1 0 0 0 1
 pins=4
 }
@@ -33,16 +33,14 @@ device=NPN_TRANSISTOR
 T 45100 47600 5 10 1 1 0 0 1
 refdes=Q4
 T 44400 46800 5 10 1 0 0 0 1
-footprint=TO666
+footprint=TO1951
 T 44400 46600 5 10 1 0 0 0 1
 pins=x
 }
-C 49400 44900 1 0 0 DB9-2.sym
+C 49100 47000 1 0 0 block.sym
 {
-T 50400 48100 5 10 0 0 0 0 1
-device=DB9
-T 49600 48100 5 10 1 1 0 0 1
+T 49100 47000 5 10 1 1 0 0 1
 refdes=J1
-T 49400 44600 5 10 1 0 0 0 1
-footprint=DSUB9
+T 49100 46700 5 10 1 0 0 0 1
+footprint=DB9
 }

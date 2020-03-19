@@ -62,23 +62,11 @@
 
 (for-each enter-pincount-for-footprint (tsv-data "pincounts"))
 
-;; Constructor for list of prefixes and counts
-;;
-(define footprint-pins-list '())
-(define (footprint-pins-prefix . x)
-	(set! footprint-pins-list (cons x footprint-pins-list)))
-
-;; search the list
-;;
-(define (find-footprint-pins attrib)
-	(find (lambda (x) (string-prefix? (car x) attrib)) footprint-pins-list))
-
-
 ;; Extract the pin count from the footprint with the prefix string removed.
 (define pin-count-regexp (make-regexp "[0-9]*"))
 (define (get-count-from-attrib pre attrib)
 	(let ((s (match:substring (regexp-exec pin-count-regexp attrib (string-length pre)))))
-		(if (string-null? s) #f s)))
+		(if (string-null? s) #f (string->number s))))
 
 ;; Look up the prefix and use it to extract the count as a character string.
 ;; Recursively trims the footprint name f until it matches a prefix.
@@ -122,11 +110,11 @@
     (and (not (null? values))
          (let ((value (car values)))
            (or (every (lambda (x) (equal? x value)) values)
-               (format (current-error-port) (_ "\
+               (format (current-error-port)  "\
 Possible attribute conflict for refdes: ~A
 name: ~A
 values: ~A
-") refdes name values))
+" refdes name values))
            value))))
 
 

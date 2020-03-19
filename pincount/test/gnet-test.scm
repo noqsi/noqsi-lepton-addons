@@ -31,30 +31,29 @@
 (define (all-true? list) (every (lambda (x) x) list))
 
 (define (do-test test)
-	(or 
-		(equal? ((car test) (cadr test)) (caddr test))
-		(begin
-			(format (current-error-port)
-				"(~A ~A) yielded ~A, should be ~A\n"
-				(car test) 
-				(cadr test)
-				((car test) (cadr test))
-				(caddr test)
+	(let ((r ((car test) (cadr test))))
+		(or 
+			(equal? r (caddr test))
+			(begin
+				(format (current-error-port)
+					"(~A ~A) yielded ~A, should be ~A\n"
+					(car test) 
+					(cadr test)
+					r
+					(caddr test)
+				)
+				#f
 			)
-			#f
 		)
 	)
 )
 
 (define tests `(
 (,get-package-pincount "Q1" 3)
-(,pins-from-footprint "Q1" #f)
 (,get-package-pincount "Q2" 3)
-(,pins-from-footprint "Q2" 3)
 (,get-package-pincount "Q3" 4)
-(,pins-from-footprint "Q3" 4)
 (,get-package-pincount "Q4" 5)
-(,pins-from-footprint "Q4" 5)
 (,get-package-pincount "J1" 9)
-(,pins-from-footprint "J1" 9)
 ))
+
+(enter-pincount-for-footprint '("TO1951" "5"))
