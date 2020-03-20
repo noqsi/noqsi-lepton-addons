@@ -154,7 +154,72 @@ values: ~A
 	)
 )
 
+
+(define (check-package-pincount p)
+	(let* 	(
+			(nu (get-numeric-attribute p "pins-used"))
+			(n (get-numeric-attribute p "pins"))
+			(fp (get-attribute p "footprint"))
+			(f (pins-from-footprint fp))
+			(c (length (get-pins p)))
+		)
+		(if nu
+			; then pins-used= rules
+			(if (not (equal? nu c))
+				(pins!=used p nu c)
+				#t
+			)
+			(if n
+				; then pins= rules
+				(if (not (equal? n c))
+					(pins!=count p n c)
+					#t
+				)
+				; else try using footprint
+				(if f 
+					; then we have a footprint to use
+					(if (not (equal? f c))
+						(footprint!=count p f c fp)
+						#t
+					)
+				; else have nothing to use
+					(pincount-unknown p)
+				)
+			)
+		)
+	)
+)
+
+(define (pincount-unknown p)
+	(format (current-error-port) "\nCannot determine expected pin count for ~A.\n" p)
+	(format (current-error-port) "Either add a pins= attribute, a pins-used= attribute,")
+	(format (current-error-port) " or use a standard gEDA footprint.\n")
+	#f
+)
+
+(define (pins!=count p n c)
+	(format (current-error-port) "\n~A has ~A pins, but has attribute pins=~A.\n"
+		p c n
+	)
+	#f
+)
+
+(define (pins!=used p n c)
+	(format (current-error-port) "\n~A has ~A pins, but has attribute pins-used=~A.\n"
+		p c n
+	)
+	#f
+)
+
+(define (footprint!=count p f c fp)
+	(format (current-error-port) "\n~A has ~A pins, but its footprint ~A has ~A.\n"
+		p c fp f
+	)
+	#f
+)
+
 (export get-package-pincount 
 	enter-pincount-for-footprint 
 	pins-from-footprint
-	get-numeric-attribute)
+	get-numeric-attribute
+	check-package-pincount)
