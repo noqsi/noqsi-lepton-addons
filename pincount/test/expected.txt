@@ -1,0 +1,11 @@
+For Q4 pins = x is not numeric
+
+Cannot determine expected pin count for Q1.
+Either add a pins= attribute, a pins-used= attribute, or use a standard gEDA footprint.
+
+Q3 has 3 pins, but has attribute pins=4.
+For Q4 pins = x is not numeric
+
+Q4 has 3 pins, but its footprint TO1951 has 5.
+
+J1 has 0 pins, but its footprint DB9 has 9.

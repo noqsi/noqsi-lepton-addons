@@ -54,6 +54,11 @@
 (,get-package-pincount "Q3" 4)
 (,get-package-pincount "Q4" 5)
 (,get-package-pincount "J1" 9)
+(,check-package-pincount "Q1", #f)
+(,check-package-pincount "Q2", #t)
+(,check-package-pincount "Q3", #f)
+(,check-package-pincount "Q4", #f)
+(,check-package-pincount "J1", #f)
 ))
 
 (enter-pincount-for-footprint '("TO1951" "5"))
